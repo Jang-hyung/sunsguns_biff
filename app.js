@@ -10,7 +10,8 @@
  function render(){
   const films=data.films,byDay=new Map();for(const f of films){if(!byDay.has(f.date))byDay.set(f.date,[]);byDay.get(f.date).push(f);}
   const improve=films.filter(f=>f.group==='improve'),wait=films.filter(f=>f.group==='wait');
-  $('summary').textContent=`10.7 — 10.11 · ${films.length}편`;
+  const n=k=>films.filter(f=>k==='done'?f.seats&&!f.note:k==='part'?f.seats&&f.note:!f.seats).length;
+  $('summary').innerHTML=`<span>10.7 — 10.11 · ${films.length}편</span><span><i class="dot done"></i>확보<b>${n('done')}</b></span><span><i class="dot part"></i>1석·떨어진 자리<b>${n('part')}</b></span><span><i class="dot wait"></i>구하는 중<b>${n('wait')}</b></span>`;
   $('days').innerHTML=[...byDay].map(([d,l])=>`<section class="dayblock">${dayHead(d,l.length)}<div class="list">${l.map(f=>row(f,false)).join('')}</div></section>`).join('')
    +(improve.length?`<h2 class="sub">자리 개선 중</h2>`+'<div class="list">'+improve.map(f=>row(f,true)).join('')+'</div>':'')
    +(wait.length?`<h2 class="sub">아직 표를 구하는 중<small>${wait.length}편</small></h2>`+'<div class="list">'+wait.map(f=>row(f,true)).join('')+'</div>':'');
