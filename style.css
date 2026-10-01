@@ -2,11 +2,10 @@
 @media (prefers-color-scheme:dark){:root{--bg:#0c0c0d;--card:#18181a;--ink:#ededeb;--mute:#8d8c88;--line:#262628;--sold:#333336;--new:#34c48f}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased}
-header{background:#000;color:#fff;padding:52px 20px 28px}
-header>*{max-width:720px;margin-left:auto;margin-right:auto}
-.eyebrow{margin-top:0;margin-bottom:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ffffff80}
+header{max-width:720px;margin:0 auto;padding:48px 20px 4px}
+.eyebrow{margin-top:0;margin-bottom:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
 h1{margin:0;font-size:36px;line-height:1.1;font-weight:700;letter-spacing:-.035em}
-#summary{margin:18px auto 0;padding-top:14px;border-top:1px solid #ffffff26;color:#ffffff99;font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+#summary{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
 main{max-width:720px;margin:0 auto;padding:12px 16px 32px}
 .dayblock{margin-top:30px}
 h2.day{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;padding:0 4px}
@@ -44,3 +43,7 @@ dialog::backdrop{background:#000000a0;backdrop-filter:blur(4px)}
 .nomap{padding:24px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:12px}
 #updated{max-width:720px;margin:0 auto;padding:0 16px 40px;font-size:12px;color:var(--mute);text-align:center}
 @media (max-width:560px){h1{font-size:30px}.film{grid-template-columns:54px 1fr;gap:6px 12px;padding:14px 16px 14px 18px}.seat{grid-column:2;flex-direction:row;align-items:center;gap:8px}}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot.done{background:var(--new)}.dot.part{background:var(--part)}.dot.wait{background:var(--sold)}
+#summary b{color:var(--ink);font-weight:600;margin-left:4px}
+#summary>span:first-child{flex-basis:100%;color:var(--ink)}
