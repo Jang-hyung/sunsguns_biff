@@ -5,7 +5,7 @@
  const short=d=>{const x=new Date(d+'T00:00:00+09:00');return `${x.getMonth()+1}/${x.getDate()} ${'일월화수목금토'[x.getDay()]}`;};
  const seatText=labels=>{const p=labels.map(l=>/^(.*열)\s*(\d+)번$/.exec(l)||[l,l,'']);return p.every(x=>x[1]===p[0][1]&&x[2])?`${p[0][1]} ${p.map(x=>x[2]).join('·')}번`:labels.join(', ');};
  let data={films:[]},openId=null,last='';
- const row=(f,withDay)=>`<button class="film ${f.seats?(f.note?'part':''):'wait'}" data-id="${f.id}"><span class="time">${withDay?`<small>${short(f.date)}</small>`:''}${esc(f.start)}</span><span class="info"><span class="title">${esc(f.title)}</span><span class="venue">${esc(f.venue)}</span></span><span class="seat">${f.seats?`<span class="pill">${esc(seatText(f.seats))}</span>`:''}${f.note?`<span class="note">${esc(f.note)}</span>`:''}</span></button>`;
+ const row=(f,withDay)=>`<button class="film ${f.seats?(f.note?'part':''):'wait'}" data-id="${f.id}"><span class="time">${withDay?`<small>${short(f.date)}</small>`:''}${esc(f.start)}</span><span class="info"><span class="title">${esc(f.title)}</span><span class="venue">${esc(f.venue)}</span></span><span class="seat">${f.seats?`<span class="pill">${esc(seatText(f.seats))}</span>`:''}${f.note||f.hint?`<span class="note">${esc(f.note||f.hint)}</span>`:''}</span></button>`;
  const dayHead=(d,n)=>{const x=new Date(d+'T00:00:00+09:00');return `<h2 class="day"><span class="num">${x.getDate()}</span><span class="dw">${'일월화수목금토'[x.getDay()]}요일<small>10월 · ${n}편</small></span></h2>`;};
  function render(){
   const films=data.films,byDay=new Map();for(const f of films){if(!byDay.has(f.date))byDay.set(f.date,[]);byDay.get(f.date).push(f);}
