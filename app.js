@@ -10,10 +10,10 @@
  function render(){
   const films=data.films,byDay=new Map();for(const f of films){if(!byDay.has(f.date))byDay.set(f.date,[]);byDay.get(f.date).push(f);}
   const improve=films.filter(f=>f.group==='improve'),wait=films.filter(f=>f.group==='wait');
-  $('summary').textContent=`10.7 – 10.11 · ${films.length}편 · 부산`;
-  $('days').innerHTML=[...byDay].map(([d,l])=>`<section class="dayblock">${dayHead(d,l.length)}${l.map(f=>row(f,false)).join('')}</section>`).join('')
-   +(improve.length?`<h2 class="sub">자리 개선 중</h2>`+improve.map(f=>row(f,true)).join(''):'')
-   +(wait.length?`<h2 class="sub">아직 표를 구하는 중<small>${wait.length}편</small></h2>`+wait.map(f=>row(f,true)).join(''):'');
+  $('summary').textContent=`10.7 — 10.11 · ${films.length}편`;
+  $('days').innerHTML=[...byDay].map(([d,l])=>`<section class="dayblock">${dayHead(d,l.length)}<div class="list">${l.map(f=>row(f,false)).join('')}</div></section>`).join('')
+   +(improve.length?`<h2 class="sub">자리 개선 중</h2>`+'<div class="list">'+improve.map(f=>row(f,true)).join('')+'</div>':'')
+   +(wait.length?`<h2 class="sub">아직 표를 구하는 중<small>${wait.length}편</small></h2>`+'<div class="list">'+wait.map(f=>row(f,true)).join('')+'</div>':'');
   if(openId)detail();
  }
  function svg(m){
