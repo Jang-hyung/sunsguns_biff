@@ -5,14 +5,17 @@
  const short=d=>{const x=new Date(d+'T00:00:00+09:00');return `${x.getMonth()+1}/${x.getDate()} ${'일월화수목금토'[x.getDay()]}`;};
  const seatText=labels=>{const p=labels.map(l=>/^(.*열)\s*(\d+)번$/.exec(l)||[l,l,'']);return p.every(x=>x[1]===p[0][1]&&x[2])?`${p[0][1]} ${p.map(x=>x[2]).join('·')}번`:labels.join(', ');};
  let data={films:[]},openId=null,last='';
- const row=(f,withDay)=>`<button class="film ${f.seats?(f.note?'part':''):'wait'}" data-id="${f.id}"><span class="time">${withDay?`<small>${short(f.date)}</small>`:''}${esc(f.start)}</span><span class="info"><span class="title">${esc(f.title)}</span><span class="venue">${esc(f.venue)}</span></span><span class="seat">${f.seats?`<span class="pill">${esc(seatText(f.seats))}</span>`:''}${f.note||f.hint?`<span class="note">${esc(f.note||f.hint)}</span>`:''}</span></button>`;
+ const row=(f,withDay)=>`<button class="film ${f.seats?(f.note?'part':''):'wait'}" data-id="${f.id}"><span class="time">${withDay?`<small>${short(f.date)}</small>`:''}${esc(f.start)}${f.end?`<small>~${esc(f.end)}</small>`:''}</span><span class="info"><span class="title">${esc(f.title)}</span><span class="venue">${esc(f.venue)}</span></span><span class="seat">${f.seats?`<span class="pill">${esc(seatText(f.seats))}</span>`:''}${f.note||f.hint?`<span class="note">${esc(f.note||f.hint)}</span>`:''}</span></button>`;
  const dayHead=(d,n)=>{const x=new Date(d+'T00:00:00+09:00');return `<h2 class="day"><span class="num">${x.getDate()}</span><span class="dw">${'일월화수목금토'[x.getDay()]}요일<small>10월 · ${n}편</small></span></h2>`;};
+ // Break between consecutive screenings of the day (needs both runtimes' end time).
+ const mins=t=>{const [h,m]=t.split(':').map(Number);return h*60+m;};
+ const gap=(a,b)=>{if(!a?.end||!b)return '';let g=mins(b.start)-mins(a.end);if(mins(a.end)<mins(a.start))g-=1440;return `<div class="gap${g<0?' clash':''}">${g<0?`⚠ ${-g}분 겹침`:g<60?`쉬는 시간 ${g}분`:`쉬는 시간 ${Math.floor(g/60)}시간${g%60?` ${g%60}분`:''}`}</div>`;};
  function render(){
   const films=data.films,byDay=new Map();for(const f of films){if(!byDay.has(f.date))byDay.set(f.date,[]);byDay.get(f.date).push(f);}
   const improve=films.filter(f=>f.group==='improve'),wait=films.filter(f=>f.group==='wait');
   const n=k=>films.filter(f=>k==='done'?f.seats&&!f.note:k==='part'?f.seats&&f.note:!f.seats).length;
   $('summary').innerHTML=`<span>10.7 — 10.11 · ${films.length}편</span><span><i class="dot done"></i>확보<b>${n('done')}</b></span><span><i class="dot part"></i>1석·떨어진 자리<b>${n('part')}</b></span><span><i class="dot wait"></i>구하는 중<b>${n('wait')}</b></span>`;
-  $('days').innerHTML=[...byDay].map(([d,l])=>`<section class="dayblock">${dayHead(d,l.length)}<div class="list">${l.map(f=>row(f,false)).join('')}</div></section>`).join('')
+  $('days').innerHTML=[...byDay].map(([d,l])=>`<section class="dayblock">${dayHead(d,l.length)}<div class="list">${l.map((f,i)=>gap(l[i-1],f)+row(f,false)).join('')}</div></section>`).join('')
    +(improve.length?`<h2 class="sub">자리 개선 중</h2>`+'<div class="list">'+improve.map(f=>row(f,true)).join('')+'</div>':'')
    +(wait.length?`<h2 class="sub">아직 표를 구하는 중<small>${wait.length}편</small></h2>`+'<div class="list">'+wait.map(f=>row(f,true)).join('')+'</div>':'');
   if(openId)detail();
