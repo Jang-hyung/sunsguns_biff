@@ -47,3 +47,6 @@ dialog::backdrop{background:#000000a0;backdrop-filter:blur(4px)}
 .dot.done{background:var(--new)}.dot.part{background:var(--part)}.dot.wait{background:var(--sold)}
 #summary b{color:var(--ink);font-weight:600;margin-left:4px}
 #summary>span:first-child{flex-basis:100%;color:var(--ink)}
+
+.gap{font-size:11px;color:var(--mute);padding:2px 0 2px 14px}
+.gap.clash{color:#c0392b;font-weight:600}
