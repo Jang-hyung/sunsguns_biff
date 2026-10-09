@@ -50,3 +50,13 @@ dialog::backdrop{background:#000000a0;backdrop-filter:blur(4px)}
 
 .gap{font-size:11px;color:var(--mute);padding:2px 0 2px 14px}
 .gap.clash{color:#c0392b;font-weight:600}
+
+.film.past{opacity:.45}
+.film.past::before{background:var(--mute)}
+.film.miss .note{color:var(--mute)}
+.dot.gone{background:var(--mute)}
+.pastdays{margin-top:24px}
+.pastdays>summary{cursor:pointer;list-style:none;font-size:13px;font-weight:600;color:var(--mute);padding:10px 4px}
+.pastdays>summary::-webkit-details-marker{display:none}
+.pastdays>summary::after{content:" ▸"}.pastdays[open]>summary::after{content:" ▾"}
+.pastdays .dayblock{opacity:.85}
